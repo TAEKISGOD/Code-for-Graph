@@ -1,0 +1,21 @@
+# Package
+from scipy.optimize import curve_fit
+def iso_fun(P, Ka, Kb, M):
+    q = M*(Ka+2*Kb*P)*P/(1+Ka*P+Kb*P**2)
+    return q
+popt, pcov = curve_fit(iso_fun, X_bar_PCN_250_ethene, y_PCN_250_ethene)
+print(popt)
+
+#Drawing fitting graph
+X_bar_PCN_250_ethene = X_PCN_250_ethene/100000
+plt.figure()
+plt.scatter(X_bar_PCN_250_ethene,y_PCN_250_ethene, alpha = 0.5, color = 'orange', label = 'Data')
+plt.plot(X_bar_PCN_250_ethene, iso_fun(X_bar_PCN_250_ethene, *popt), label='fit') #fitting graph
+plt.title('Hoons PCN-250 / Ethene')
+plt.xticks(fontsize = 15)
+plt.yticks(fontsize = 15)
+plt.semilogx()
+plt.xlabel('Pressure / bar', fontsize = 20)
+plt.ylabel('Uptake / mmol g⁻¹', fontsize = 20)
+plt.legend(fontsize = 15)
+plt.show()
